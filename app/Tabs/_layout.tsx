@@ -1,31 +1,48 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
+import Home from './Home';
+import Settings from './Settings';
+import Profile from './Profile';
 
-export default function TabsLayout() {
+const Tab = createMaterialTopTabNavigator();
+
+export default function TabLayout() {
   return (
-    <Tabs
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-           let iconName: keyof typeof Ionicons.glyphMap;
-
-          if (route.name === 'Home') {
-            iconName = 'home';
-          } else if (route.name === 'Profile') {
-            iconName = 'person';
-          } else if (route.name === 'Settings') {
-            iconName = 'settings';
-          }
-          else{
-            iconName = 'help-circle'
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
-        headerShown: false,
-      })}
-    />
+    <Tab.Navigator
+      tabBarPosition="bottom"       
+      screenOptions={{
+        tabBarShowIcon: true,
+        tabBarIndicatorStyle: { backgroundColor: '#000' },
+        swipeEnabled: true
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          title : "Home",
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => <Ionicons name="home-outline" size={20} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          title : "Settings",
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color }) => <Ionicons name="settings-outline" size={20} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title : "Profile",
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color }) => <Ionicons name="person-outline" size={20} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
   );
 }
