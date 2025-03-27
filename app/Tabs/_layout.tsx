@@ -1,48 +1,61 @@
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { TabView, SceneMap } from 'react-native-tab-view';
+import { useState } from 'react';
+import tw from 'tailwind-react-native-classnames';
 import Home from './Home';
 import Settings from './Settings';
 import Profile from './Profile';
+import Header from './Header';
 
-const Tab = createMaterialTopTabNavigator();
+const initialLayout = { width: Dimensions.get('window').width };
 
 export default function TabLayout() {
-  return (
-    <Tab.Navigator
-      tabBarPosition="bottom"       
-      screenOptions={{
-        tabBarShowIcon: true,
-        tabBarIndicatorStyle: { backgroundColor: '#000' },
-        swipeEnabled: true
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          title : "Home",
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => <Ionicons name="home-outline" size={20} color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={Settings}
-        options={{
-          title : "Settings",
-          tabBarLabel: "Settings",
-          tabBarIcon: ({ color }) => <Ionicons name="settings-outline" size={20} color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          title : "Profile",
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color }) => <Ionicons name="person-outline" size={20} color={color} />,
-        }}
-      />
-    </Tab.Navigator>
-  );
+    const [index, setIndex] = useState(0);
+    const [routes] = useState<{ key: string; title: string; icon: keyof typeof Ionicons.glyphMap }[]>([
+        { key: 'home', title: 'Home', icon: 'home-outline' },
+        { key: 'settings', title: 'Settings', icon: 'settings-outline' },
+        { key: 'profile', title: 'Profile', icon: 'person-outline' },
+    ]);
+
+    const renderScene = SceneMap({
+        home: Home,
+        settings: Settings,
+        profile: Profile,
+    });
+
+    return (
+        <>
+            <Header title={routes[index].title}/>
+
+            {/* TabView */}
+            <TabView
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={initialLayout}
+                renderTabBar={() => null}
+            />
+
+            {/* Bottom Tabs */}
+            <View style={tw`flex-row p-2 border-t border-gray-300 bg-white`}>
+                {routes.map((route, i) => (
+                    <TouchableOpacity
+                        key={route.key}
+                        style={tw`flex-1 justify-center items-center`}
+                        onPress={() => setIndex(i)}
+                    >
+                        <Ionicons
+                            name={route.icon}
+                            size={24}
+                            color={index === i ? '#000' : '#888'}
+                        />
+                        <Text style={tw`${index === i ? 'text-black' : 'text-gray-500'} text-xs`}>
+                            {route.title}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
+        </>
+    );
 }
