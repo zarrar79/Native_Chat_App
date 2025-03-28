@@ -8,7 +8,7 @@ type HeaderProps = {
 export default function Header({ title }: HeaderProps) {
     return (
         <View style={tw`p-4 justify-center items-start bg-gray-100 border-b border-gray-300`}>
-            <Text style={tw`text-lg font-bold`}>
+            <Text style={tw`text-2xl font-bold`}>
                 {title}
             </Text>
         </View>

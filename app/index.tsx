@@ -22,7 +22,7 @@ export default function Index() {
         duration: 500,
         useNativeDriver: true,
       }).start(() => {
-        router.replace('/Tabs/Home');
+        router.replace('/Tabs/Chats');
       });
     }, 2500);
 

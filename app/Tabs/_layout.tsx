@@ -3,24 +3,24 @@ import { Ionicons } from '@expo/vector-icons';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { useState } from 'react';
 import tw from 'tailwind-react-native-classnames';
-import Home from './Home';
-import Settings from './Settings';
+import Contacts from './Contacts';
 import Profile from './Profile';
 import Header from './Header';
+import Chats from './Chats';
 
 const initialLayout = { width: Dimensions.get('window').width };
 
 export default function TabLayout() {
     const [index, setIndex] = useState(0);
     const [routes] = useState<{ key: string; title: string; icon: keyof typeof Ionicons.glyphMap }[]>([
-        { key: 'home', title: 'Home', icon: 'home-outline' },
-        { key: 'settings', title: 'Settings', icon: 'settings-outline' },
-        { key: 'profile', title: 'Profile', icon: 'person-outline' },
+        { key: 'chats', title: 'Chats', icon: 'chatbubble-outline' },
+        { key: 'contacts', title: 'Contacts', icon: 'person-circle-outline' },
+        { key: 'profile', title: 'Profile', icon: 'person-outline' }
     ]);
 
     const renderScene = SceneMap({
-        home: Home,
-        settings: Settings,
+        chats: Chats,
+        contacts: Contacts,
         profile: Profile,
     });
 
