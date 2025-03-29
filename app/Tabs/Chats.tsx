@@ -1,58 +1,25 @@
-import React, { useState } from 'react';
-import { View, Text, Image, FlatList, Pressable, Alert } from 'react-native';
-import tw from 'tailwind-react-native-classnames';
+import React, { useState } from "react";
+import { View, Text, Image, FlatList, Pressable } from "react-native";
+import { useRouter } from "expo-router";
+import tw from "tailwind-react-native-classnames";
 
-const chats = [
-  {
-    id: 1,
-    name: "John Doe",
-    image: "https://randomuser.me/api/portraits/men/1.jpg",
-    lastMessage: "Hey, how are you?",
-    time: "10:45 AM"
-  },
-  {
-    id: 2,
-    name: "Alice Smith",
-    image: "https://randomuser.me/api/portraits/women/2.jpg",
-    lastMessage: "Let's meet up later!",
-    time: "09:30 AM"
-  },
-  {
-    id: 3,
-    name: "David Johnson",
-    image: "https://randomuser.me/api/portraits/men/3.jpg",
-    lastMessage: "Did you check the files?",
-    time: "Yesterday"
-  },
-  {
-    id: 4,
-    name: "Sophia Brown",
-    image: "https://randomuser.me/api/portraits/women/4.jpg",
-    lastMessage: "Good morning! ☀️",
-    time: "Yesterday"
-  },
-  {
-    id: 5,
-    name: "Emily Davis",
-    image: "https://randomuser.me/api/portraits/women/5.jpg",
-    lastMessage: "Call me when you're free!",
-    time: "2 days ago"
-  }
+const initialChats = [
+  { id: 1, name: "John Doe", image: "https://randomuser.me/api/portraits/men/1.jpg", lastMessage: "Hey, how are you?", time: "10:45 AM" },
+  { id: 2, name: "Alice Smith", image: "https://randomuser.me/api/portraits/women/2.jpg", lastMessage: "Let's meet up later!", time: "09:30 AM" },
+  { id: 3, name: "David Johnson", image: "https://randomuser.me/api/portraits/men/3.jpg", lastMessage: "Did you check the files?", time: "Yesterday" },
 ];
 
 const Chats = () => {
-  const handleChatPress = (name:string) => {
-    Alert.alert("Chat Selected", `You tapped on ${name}`);
-  };
+  const router = useRouter(); // ✅ Initialize navigation
 
   return (
     <View style={tw`flex-1 bg-white`}>
       <FlatList
-        data={chats}
+        data={initialChats}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Pressable
-            onPress={() => handleChatPress(item.name)}
+          onPress={() => router.push(`/Tabs/Chat[${item.id}]`)}
             style={({ pressed }) => [
               tw`flex-row items-center border-b border-gray-200 px-4 py-3 rounded-lg`,
               pressed ? tw`bg-gray-200` : tw`bg-white`
